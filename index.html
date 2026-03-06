@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>운동 할까?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 버튼이 화면 밖으로 나가는 것을 방지 */
+        }
+
+        /* 알림창 디자인 */
+        .alert-box {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            padding: 30px 40px;
+            text-align: center;
+            width: 300px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* 버튼 공통 스타일 */
+        .btn {
+            padding: 10px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.1s;
+            margin: 0 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Yes 버튼 (초록색) */
+        #yesBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #yesBtn:hover {
+            background-color: #45a049;
+        }
+
+        /* No 버튼 (빨간색) - 핵심: position을 fixed로 설정하여 화면 어디든 이동 가능하게 함 */
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+            position: fixed;
+        }
+
+        #noBtn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="alert-box">
+        <h2>⚠️ 알림</h2>
+        <p style="margin-bottom: 25px; font-size: 18px; font-weight: bold;">운동을 하시겠습니까?</p>
+
+        <button id="yesBtn" class="btn" onclick="handleYes()">Yes</button>
+        <button id="noBtn" class="btn">No</button>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+
+        // No 버튼에 마우스가 올라갔을 때 도망가는 로직
+        noBtn.addEventListener('mouseover', function() {
+            // 화면의 가로, 세로 크기 구하기
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+
+            // 버튼의 크기 구하기 (버튼이 화면 밖으로 완전히 사라지지 않게 하기 위함)
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // 랜덤한 위치 계산 (화면 중앙 근처에서 너무 멀리 가지 않도록 약간의 여유 주기)
+            // 50 ~ (화면크기 - 50) 사이의 값
+            const randomX = Math.random() * (width - btnWidth);
+            const randomY = Math.random() * (height - btnHeight);
+
+            // 버튼 위치 이동 적용
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // 필요에 따라 버튼을 가장 위로 올리기 (다른 요소에 가려지지 않게)
+            noBtn.style.zIndex = 1000;
+        });
+
+        // Yes 버튼 클릭 시
+        function handleYes() {
+            alert("좋아요! 운동 시작입니다! 💪");
+            // 간단히 페이지 리로드或者其他 로직 추가 가능
+            location.reload();
+        }
+    </script>
+
+</body>
+</html>
